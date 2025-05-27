@@ -1,18 +1,18 @@
 """
-URL configuration for myshop project.
+Конфигурация URL для проекта myshop.
 
-The `urlpatterns` list routes URLs to views. For more information please see:
+Список `urlpatterns` направляет URL к представлениям. Документация:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+Примеры:
+Функциональные представления
+    1. Импорт: from my_app import views
+    2. Добавить URL: path('', views.home, name='home')
+Класс-базированные представления
+    1. Импорт: from other_app.views import Home
+    2. Добавить URL: path('', Home.as_view(), name='home')
+Включение других URLconf
+    1. Импорт функции include: from django.urls import include, path
+    2. Добавить URL: path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
 from django.urls import path
