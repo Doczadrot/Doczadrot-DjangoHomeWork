@@ -1,9 +1,9 @@
 """
-WSGI config for myshop project.
+WSGI конфигурация для проекта myshop.
 
-It exposes the WSGI callable as a module-level variable named ``application``.
+Предоставляет вызываемый WSGI объект как переменную уровня модуля с именем ``application``.
 
-For more information on this file, see
+Дополнительная информация:
 https://docs.djangoproject.com/en/5.2/howto/deployment/wsgi/
 """
 
