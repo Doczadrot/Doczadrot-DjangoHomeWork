@@ -19,7 +19,7 @@ def home(request):
     # Получаем все продукты из базы данных
     context['products'] = Product.objects.all() # Добавляем продукты в контекст
 
-    return render(request, 'catalog/index.html', context)
+    return render(request, 'catalog/home.html', context)
 
 
 
@@ -61,3 +61,16 @@ def contact(request):
 
      # Для GET-запроса просто отображаем форму с пустым контекстом
     return render(request, 'catalog/contact.html', context)
+
+def product_list(request):
+    """
+    Функция представления для отображения списка продуктов.
+
+    Args:
+        request: Объект HTTP-запроса.
+
+    Returns:
+        Отрендеренный шаблон product_list.html.
+    """
+    products = Product.objects.all()
+    return render(request, 'catalog/product_list.html', {'products': products})
