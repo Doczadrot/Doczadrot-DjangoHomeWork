@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse 
+from catalog.models import Product
 
 
 def home(request):
@@ -12,7 +13,14 @@ def home(request):
     Returns:
         Отрендеренный шаблон index.html.
     """
-    return render(request, 'catalog/home.html')
+    context = {} # Создаем пустой словарь для контекста шаблона
+    # products = Product.objects.all() # Получаем все продукты из базы данных
+    # context['products'] = products # Добавляем продукты в контекст
+    # Получаем все продукты из базы данных
+    context['products'] = Product.objects.all() # Добавляем продукты в контекст
+
+    return render(request, 'catalog/index.html', context)
+
 
 
 def contact(request):
