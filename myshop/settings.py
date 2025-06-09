@@ -9,18 +9,26 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 Полный список настроек и их значений:
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+import os
+from dotenv import load_dotenv
+
+
 
 from pathlib import Path
 
 # Пути сборки внутри проекта: BASE_DIR / 'subdir'
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv()
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Быстрый старт (настройки для разработки) - не для production
 # См. https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-c6=&jk@o^z(2urc#z+5_8udmdyjtp#l@kk$uw29qp)krv)i4c5'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -77,11 +85,11 @@ WSGI_APPLICATION = 'myshop.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "database_db",
-        "USER": "postgres",
-        "PASSWORD": "202939",
-        "HOST": "localhost",
-        "PORT": "5432",
+        "NAME": os.getenv('NAME'),
+        "USER": os.getenv('USER'),
+        "PASSWORD": os.getenv('PASSWORD'),
+        "HOST": os.getenv('HOST'),
+        "PORT": os.getenv('PORT'),
     }
 }
 
