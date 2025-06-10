@@ -1,25 +1,49 @@
-# Environment variables
-.env/
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+*.egg-info/
 
-# Игнорировать папки виртуального окружения
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+dist/
+wheels/
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.tox/
+.coverage
+.cache/
+nosetests.xml
+docs/_build/
+
+# Editor directories and files
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
+
+# Environments
+.env
 venv/
 env/
 
-# Игнорировать временные файлы Python
-__pycache__/
-*.pyc
-
-# Игнорировать файлы IDE (например, PyCharm)
-.idea/
-
-# Игнорировать файлы базы данных SQLite
-*.sqlite3
-
-# Игнорировать файлы логов
+# Django stuff:
 *.log
+*.pot
+*.mo
 
-# Игнорировать собранные статические файлы
-static_collected/
-
-# Игнорировать медиафайлы, загруженные пользователями
+# My Stuff
+db.sqlite3
 media/
+static_collected/
