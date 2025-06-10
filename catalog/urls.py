@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import home, contact, product_list
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', home, name='home'),
