@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse 
 from catalog.models import Product
+from django.shortcuts import render, get_object_or_404
 
 
 def home(request):
@@ -14,8 +15,6 @@ def home(request):
         Отрендеренный шаблон index.html.
     """
     context = {} # Создаем пустой словарь для контекста шаблона
-    # products = Product.objects.all() # Получаем все продукты из базы данных
-    # context['products'] = products # Добавляем продукты в контекст
     # Получаем все продукты из базы данных
     context['products'] = Product.objects.all() # Добавляем продукты в контекст
 
@@ -34,13 +33,13 @@ def contact(request):
         Отрендеренный шаблон contact.html.
     """
     context = {}
-    # Если это POST-запрос, значит пользователь отправил форму
+
     if request.method == 'POST':
-        # Вы можете выполнить дополнительные действия с данными
+    
         name = request.POST.get('name')
         phone = request.POST.get('phone')
         message = request.POST.get('message')
-        # Создаем пустой словарь для контекста шаблона
+    
         
 
         errors =  [] #Проверка полей
@@ -59,7 +58,7 @@ def contact(request):
             'message': 'Спасибо за ваше сообщение! Мы свяжемся с вами в ближайшее время.'})
 
 
-     # Для GET-запроса просто отображаем форму с пустым контекстом
+ 
     return render(request, 'catalog/contact.html', context)
 
 def product_list(request):
@@ -74,3 +73,17 @@ def product_list(request):
     """
     products = Product.objects.all()
     return render(request, 'catalog/product_list.html', {'products': products})
+
+def product_detail(request, id):
+    """
+    Функция представления для отображения деталей продукта.
+
+    Args:
+        request: Объект HTTP-запроса.
+        product_id: Идентификатор продукта.
+
+    Returns:
+        Отрендеренный шаблон product_detail.html.
+    """
+    product = get_object_or_404(Product, pk=id)
+    return render(request, 'catalog/product_detail.html', {'product': product})

@@ -9,13 +9,13 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write(self.style.SUCCESS('Начинаем загрузку начальных данных...'))
 
-        # Удаляем все существующие данные (для чистого состояния)
+
         self.stdout.write('Удаление существующих продуктов и категорий...')
         Product.objects.all().delete()
         Category.objects.all().delete()
         self.stdout.write(self.style.SUCCESS('Существующие данные удалены.'))
 
-        # Загружаем данные из фикстур
+
         self.stdout.write('Загрузка фикстур categories.json и products.json...')
         try:
             call_command('loaddata', 'categories.json')
