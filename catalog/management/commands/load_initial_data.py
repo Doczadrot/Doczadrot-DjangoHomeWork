@@ -18,8 +18,8 @@ class Command(BaseCommand):
         # Загружаем данные из фикстур
         self.stdout.write('Загрузка фикстур categories.json и products.json...')
         try:
-            call_command('loaddata', 'categories.json')
-            call_command('loaddata', 'products.json')
+            call_command('loaddata', 'categories.json', "--format=json")
+            call_command('loaddata', 'products.json', "--format=json")
             self.stdout.write(self.style.SUCCESS('Фикстуры успешно загружены!'))
         except Exception as e:
             self.stdout.write(self.style.ERROR(f'Ошибка при загрузке фикстур: {e}'))
