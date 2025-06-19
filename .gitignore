@@ -40,6 +40,13 @@ docs/_build/
 venv/
 env/
 
+
+# My Stuff
+db.sqlite3
+media/
+static_collected/
+
+
 # Django stuff:
 *.log
 *.pot
