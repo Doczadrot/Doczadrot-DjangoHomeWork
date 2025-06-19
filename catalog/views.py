@@ -52,38 +52,17 @@ def contact(request):
 
         if errors:
             context['errors'] = errors # Добавляем список ошибок в контекст
-            return render(request, 'catalog/contact.html', context) # Возвращаем шаблон с контекстом
+            return render(request, 'catalog/contact.html', context)
         return render(request, 'catalog/success.html', 
             {'name': name,
             'message': 'Спасибо за ваше сообщение! Мы свяжемся с вами в ближайшее время.'})
 
-
- 
     return render(request, 'catalog/contact.html', context)
 
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    return render(request, 'catalog/product_detail.html', {'product': product})
+
 def product_list(request):
-    """
-    Функция представления для отображения списка продуктов.
-
-    Args:
-        request: Объект HTTP-запроса.
-
-    Returns:
-        Отрендеренный шаблон product_list.html.
-    """
     products = Product.objects.all()
     return render(request, 'catalog/product_list.html', {'products': products})
-
-def product_detail(request, id):
-    """
-    Функция представления для отображения деталей продукта.
-
-    Args:
-        request: Объект HTTP-запроса.
-        product_id: Идентификатор продукта.
-
-    Returns:
-        Отрендеренный шаблон product_detail.html.
-    """
-    product = get_object_or_404(Product, pk=id)
-    return render(request, 'catalog/product_detail.html', {'product': product})
