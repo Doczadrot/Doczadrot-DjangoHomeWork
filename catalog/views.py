@@ -1,68 +1,43 @@
-from django.shortcuts import render
-from django.http import HttpResponse 
-from catalog.models import Product
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
+from catalog.models import Product
+from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic.edit import FormView
+from django import forms
+from django.urls import reverse_lazy
 
 
-def home(request):
-    """
-    Функция представления для отображения главной страницы.
-
-    Args:
-        request: Объект HTTP-запроса.
-
-    Returns:
-        Отрендеренный шаблон index.html.
-    """
-    context = {} # Создаем пустой словарь для контекста шаблона
-    # Получаем все продукты из базы данных
-    context['products'] = Product.objects.all() # Добавляем продукты в контекст
-
-    return render(request, 'catalog/home.html', context)
+class HomeListView(ListView):
+    model = Product
+    template_name = 'catalog/home.html'
+    context_object_name = 'products'
 
 
+class ContactForm(forms.Form):
+    contact_name = forms.CharField(max_length=100, label="Ваше имя")
+    contact_phone = forms.CharField(max_length=20, label="Телефон для связи")
+    contact_message = forms.CharField(widget=forms.Textarea, label="Сообщение")
 
-def contact(request):
-    """
-    Функция представления для отображения страницы контактов.
+class ContactView(FormView):
+    template_name = 'catalog/contact.html'
+    form_class = ContactForm
 
-    Args:
-        request: Объект HTTP-запроса.
+    def form_valid(self, form):
+        name = form.cleaned_data['contact_name']
+        phone = form.cleaned_data['contact_phone']
+        message = form.cleaned_data['contact_message']
+        return render(self.request, 'catalog/success.html', {
+            'name': name,
+            'message': 'Спасибо за ваше сообщение! Мы свяжемся с вами в ближайшее время.'
+        })
 
-    Returns:
-        Отрендеренный шаблон contact.html.
-    """
-    context = {}
 
-    if request.method == 'POST':
-    
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        message = request.POST.get('message')
-    
-        
+class ProductListView(ListView):
+    model =  Product
+    template_name = 'catalog/products_list.html'
 
-        errors =  [] #Проверка полей
-        if not name:
-            errors.append('Имя не может быть пустым')
-        if not phone:
-            errors.append('Телефон не может быть пустым')
-        if not message:
-            errors.append('Сообщение не может быть пустым')
 
-        if errors:
-            context['errors'] = errors # Добавляем список ошибок в контекст
-            return render(request, 'catalog/contact.html', context)
-        return render(request, 'catalog/success.html', 
-            {'name': name,
-            'message': 'Спасибо за ваше сообщение! Мы свяжемся с вами в ближайшее время.'})
 
-    return render(request, 'catalog/contact.html', context)
-
-def product_detail(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    return render(request, 'catalog/product_detail.html', {'product': product})
-
-def product_list(request):
-    products = Product.objects.all()
-    return render(request, 'catalog/product_list.html', {'products': products})
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'catalog/products_detail.html'

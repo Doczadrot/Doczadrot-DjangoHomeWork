@@ -11,11 +11,11 @@
         <div class="col-lg-12">
             <div class="card mb-4 box-shadow">
                 <div class="card-body">
-                    <p>{{ product.description }}</p>
-                    <p>Цена: {{ product.price }}</p>
-                    <p>Категория: {{ product.category }}</p>
-                    <p>Дата создания: {{ product.date_created }}</p>
-                    <p>Дата изменения: {{ product.updated_at }}</p>
+                    <p>{{ object.description }}</p>
+                    <p>Цена: {{ object.price }}</p>
+                    <p>Категория: {{ object.category }}</p>
+                    <p>Дата создания: {{ object.date_created }}</p>
+                    <p>Дата изменения: {{ object.updated_at }}</p>
                     {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid">
                     {% else %}
