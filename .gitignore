@@ -43,7 +43,7 @@ env/
 
 # My Stuff
 db.sqlite3
-media/
+#media/
 static_collected/
 
 
