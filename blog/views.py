@@ -5,18 +5,18 @@ from django.urls import reverse_lazy
 
 class BlogUpdateView(UpdateView):
     model = Blog
-    fields = ('title', 'contents', 'preview', 'on_published', 'slug')
+    fields = ('title', 'contents', 'preview', 'on_published',)
     template_name = 'blog/blog_form.html'
 
     def get_success_url(self):
-        return reverse_lazy('blog:blog_detail', kwargs={'slug': self.object.slug})
+        return reverse_lazy('blog:detail', kwargs={'pk': self.object.pk})
 
 
 
 class BlogCreateView(CreateView):
     model = Blog
     fields = ('title', 'contents', 'preview')
-    success_url = reverse_lazy('blog:blog_list')
+    success_url = reverse_lazy('blog:list')
 
 class BlogListView(ListView):
     model = Blog
@@ -40,5 +40,5 @@ class BlogDetailView(DetailView):
 
 class BlogDeleteView(DeleteView):
     model = Blog
-    success_url = reverse_lazy('blog:blog_list')
+    success_url = reverse_lazy('blog:list')
     template_name = 'blog/blog_confirm_delete.html'
