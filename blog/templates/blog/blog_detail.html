@@ -13,9 +13,9 @@
     <p class="text-muted">Просмотров: {{ blog_post.count_views }}</p>
 
 
-    <a href="{% url 'blog:blog_update' slug=blog_post.slug %}" class="btn btn-warning mt-3">Редактировать статью</a>
-    <a href="{% url 'blog:blog_delete' slug=blog_post.slug %}" class="btn btn-danger mt-3 ml-2">Удалить статью</a>
-    <a href="{% url 'blog:blog_list' %}" class="btn btn-secondary mt-3">Назад к списку</a>
+    <a href="{% url 'blog:update' pk=blog_post.pk %}" class="btn btn-warning mt-3">Редактировать статью</a>
+    <a href="{% url 'blog:delete' pk=blog_post.pk %}" class="btn btn-danger mt-3 ml-2">Удалить статью</a>
+    <a href="{% url 'blog:list' %}" class="btn btn-secondary mt-3">Назад к списку</a>
 
 </div>
 {% endblock %}

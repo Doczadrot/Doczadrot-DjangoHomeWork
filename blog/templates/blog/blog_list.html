@@ -4,29 +4,36 @@
 <h1 class="display-4">Последние записи в блоге</h1>
 {% endblock %}
 {% block content %}
-<div class="row text-center">
-    {% for blog_post in blog_list %}
-    <div class="col-md-4">
-        <div class="card mb-4 box-shadow">
-            <div class="card-header">
-                <h4 class="my-0 font-weight-normal">{{ blog_post.title }}</h4>
-            </div>
-            <div class="card-body">
-                {% if blog_post.preview %}
-                <img class="card-img-top" src="{{ blog_post.preview.url }}" alt="{{ blog_post.title }}" style="max-height: 150px; object-fit: cover;">
-                {% endif %}
-                <a href="{% url 'blog:blog_create' %}" class="btn btn-primary mb-3">Добавить новую статью</a>
-                <p class="card-text">{{ blog_post.contents|truncatechars:150 }}</p>
-                <p class="text-muted">Просмотров: {{ blog_post.count_views }}</p>
-                <p class="text-muted">Опубликовано: {% if blog_post.on_published %}Да{% else %}Нет{% endif %}</p>
-                <a href="{% url 'blog:blog_detail' blog_post.slug %}" class="btn btn-lg btn-block btn-outline-primary">Читать далее</a>
-            </div>
+<div class="container">
+    <div class="row mb-3">
+        <div class="col-12 text-end">
+            <a href="{% url 'blog:create' %}" class="btn btn-success">Добавить новую статью</a>
         </div>
     </div>
-    {% empty %}
-    <div class="col-12">
-        <p>Пока нет блоговых записей.</p>
+
+    <div class="row text-center">
+        {% for blog_post in blog_list %}
+        <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ blog_post.title }}</h4>
+                </div>
+                <div class="card-body">
+                    {% if blog_post.preview %}
+                    <img class="card-img-top" src="{{ blog_post.preview.url }}" alt="{{ blog_post.title }}" style="max-height: 150px; object-fit: cover;">
+                    {% endif %}
+                    <p class="card-text">{{ blog_post.contents|truncatechars:150 }}</p>
+                    <p class="text-muted">Просмотров: {{ blog_post.count_views }}</p>
+                    <p class="text-muted">Опубликовано: {% if blog_post.on_published %}Да{% else %}Нет{% endif %}</p>
+                   <a href="{% url 'blog:detail' blog_post.pk %}">Читать далее</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p>Пока нет блоговых записей.</p>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 {% endblock %}
