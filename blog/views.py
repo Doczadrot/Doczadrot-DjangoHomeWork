@@ -13,6 +13,7 @@ class BlogUpdateView(UpdateView):
 
 
 
+
 class BlogCreateView(CreateView):
     model = Blog
     fields = ('title', 'contents', 'preview')
