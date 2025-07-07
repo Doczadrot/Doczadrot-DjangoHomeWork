@@ -1,0 +1,24 @@
+{# catalog/templates/catalog/product_form.html #}
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Создать / Редактировать продукт</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data"> {# enctype="multipart/form-data" - важно для загрузки изображений! #}
+                        {% csrf_token %} {# Токен безопасности Django #}
+                        {{ form.as_p }} {# Это выводит все поля формы в виде параграфов. Позже мы его стилизуем. #}
+                        <button type="submit" class="btn btn-success">Сохранить</button>
+                        <a href="{% url 'catalog:products_list' %}" class="btn btn-secondary">Отмена</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
