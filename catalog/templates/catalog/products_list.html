@@ -1,12 +1,51 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список продуктов</title>
-</head>
-<body>
-    <h1>Список продуктов</h1>
-    <p>Это страница со списком наших продуктов.</p>
-</body>
-</html>
+{% extends 'catalog/base.html' %}
+
+{% block title %}Skystore - Каталог продуктов{% endblock %}
+
+{% block header_content %}
+<h1 class="display-4">Наши Продукты</h1>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-3">
+        <div class="col-12 text-end">
+            <a href="{% url 'catalog:product_create' %}" class="btn btn-success">Добавить новый продукт</a>
+        </div>
+    </div>
+
+    <div class="row text-center">
+        {% for product in product_list %}
+        <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>
+                </div>
+                <div class="card-body">
+                    {% if product.image %}
+                    <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}" style="max-height: 150px; object-fit: cover;">
+                    {% endif %}
+                    <p class="card-text">{{ product.description|truncatechars:100 }}</p>
+                    <h1 class="card-title pricing-card-title">{{ product.price }} руб.</h1>
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <li>Категория: {{ product.category.name }}</li>
+                        <li>Дата создания: {{ product.date_created|date:"d M Y" }}</li>
+                    </ul>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <a href="{% url 'catalog:products_detail' pk=product.pk %}" class="btn btn-sm btn-outline-secondary">Просмотр</a>
+                            <a href="{% url 'catalog:product_update' pk=product.pk %}" class="btn btn-sm btn-outline-info">Редактировать</a>
+                            <a href="{% url 'catalog:product_delete' pk=product.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p>В каталоге пока нет продуктов. Вы можете <a href="{% url 'catalog:product_create' %}">добавить первый!</a></p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
