@@ -1,9 +1,9 @@
-from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Blog
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(LoginRequiredMixin, UpdateView):
     model = Blog
     fields = ('title', 'contents', 'preview', 'on_published',)
     template_name = 'blog/blog_form.html'
@@ -14,10 +14,15 @@ class BlogUpdateView(UpdateView):
 
 
 
-class BlogCreateView(CreateView):
+class BlogCreateView(LoginRequiredMixin, CreateView):
     model = Blog
     fields = ('title', 'contents', 'preview')
     success_url = reverse_lazy('blog:list')
+
+    def form_valid(self, form):
+        form.instance.on_published = True
+        return super().form_valid(form)
+
 
 class BlogListView(ListView):
     model = Blog
@@ -39,7 +44,7 @@ class BlogDetailView(DetailView):
         obj.save()
         return obj
 
-class BlogDeleteView(DeleteView):
+class BlogDeleteView(LoginRequiredMixin, DeleteView):
     model = Blog
     success_url = reverse_lazy('blog:list')
     template_name = 'blog/blog_confirm_delete.html'
