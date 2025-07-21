@@ -1,3 +1,5 @@
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseForbidden
 from django.shortcuts import render
 
 from catalog.models import Product
@@ -53,11 +55,26 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'catalog/product_form.html'
     success_url = reverse_lazy('catalog:products_list')
 
+    def get_object(self, queryset=None):
+        product = super().get_object(queryset)
+        if product.owner != self.request.user:
+            raise PermissionDenied("Вы не являетесь владельцем этого продукта.")
+        return product
+
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:products_list')
     template_name = 'catalog/product_confirm_delete.html'
+
+    def check_user_permissions(self, user, product):
+        if user != product.owner and not user.groups.filter(name='Модератор продуктов').exists():
+            raise PermissionDenied("Вы не имеете прав для удаления этого продукта.")
+
+    def delete(self, request, *args, **kwargs):
+        product = self.get_object()
+        self.check_user_permissions(request.user, product)
+        return super().delete(request, *args, **kwargs)
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -65,5 +82,9 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     form_class = ProductForm
     template_name = 'catalog/product_form.html'
     success_url = reverse_lazy('catalog:products_list')
+    # cоздаем функцию редактирования только своего продукта
 
+    def form_valid(self, form): # функция из  CreateView
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
 
