@@ -1,5 +1,8 @@
 from django.db import models
 
+from users.models import Users
+
+
 class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название")
     description = models.TextField(verbose_name="Описание", blank=True, null=True)
@@ -8,7 +11,8 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
     image = models.ImageField(upload_to="product_images/", verbose_name="Изображение", blank=True, null=True)
     category = models.ForeignKey("Category", on_delete=models.CASCADE, verbose_name="Категория", blank=True, null=True)
-    
+    is_published = models.BooleanField(default=False, verbose_name='Опубликовано')
+    owner = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
     
     def __str__(self) -> str:
         return self.name
