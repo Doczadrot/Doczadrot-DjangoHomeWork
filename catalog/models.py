@@ -21,8 +21,11 @@ class Product(models.Model):
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
         ordering = ["name"]
+        permissions = [
+            ('can_unpublish_product', 'Можно отменить публикацию продукта')
+        ]
 
-        
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255, verbose_name="Категория")

@@ -67,13 +67,16 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('catalog:products_list')
     template_name = 'catalog/product_confirm_delete.html'
 
-    def check_user_permissions(self, user, product):
-        if user != product.owner and not user.groups.filter(name='Модератор продуктов').exists():
-            raise PermissionDenied("Вы не имеете прав для удаления этого продукта.")
+    def get_object(self, queryset=None):
+        product = super().get_object(queryset)
+        if product.owner != self.request.user and not self.request.user.has_perm('catalog.can_unpublish_product'):
+            raise PermissionDenied("Вы не являетесь владельцем этого продукта.")
+        return product
 
     def delete(self, request, *args, **kwargs):
         product = self.get_object()
-        self.check_user_permissions(request.user, product)
+        if product.owner != request.user and not request.user.has_perm('catalog.can_unpublish_product'):
+            raise PermissionDenied("У вас нет прав на удаление этого продукта.")
         return super().delete(request, *args, **kwargs)
 
 
@@ -87,4 +90,3 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form): # функция из  CreateView
         form.instance.owner = self.request.user
         return super().form_valid(form)
-
