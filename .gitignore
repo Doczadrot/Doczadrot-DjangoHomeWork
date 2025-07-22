@@ -43,4 +43,4 @@ media/
 static_collected/
 *.log
 *.pot
-*.mo
+*.mo.env
