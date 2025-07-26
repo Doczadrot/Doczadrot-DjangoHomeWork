@@ -1,8 +1,8 @@
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseForbidden
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
-from catalog.models import Product
+from catalog.models import Product, Category
 from django.views.generic import ListView, DetailView, TemplateView, UpdateView, DeleteView, CreateView
 from django.views.generic.edit import FormView
 from .forms import ProductForm
@@ -10,11 +10,32 @@ from django import forms
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from catalog.services import get_product_cache, get_products_category
+
 
 class HomeListView(ListView):
     model = Product
     template_name = 'catalog/home.html'
     context_object_name = 'products_list'
+
+    def get_queryset(self):
+        return get_product_cache()
+
+def category_products_view(request, category_id):
+    """
+    Отображает список продуктов для конкретной категории по её ID.
+    """
+    # Получаем объект категории. Если не найден, Django автоматически вернет 404.
+    category = get_object_or_404(Category, pk=category_id)
+
+    # Используем сервисную функцию для получения продуктов данной категории
+    products = get_products_category(category_id)
+
+    context = {
+        'category': category,
+        'products': products
+    }
+    return render(request, 'catalog/category_products.html', context)
 
 
 
