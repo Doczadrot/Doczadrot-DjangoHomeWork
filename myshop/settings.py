@@ -99,3 +99,12 @@ DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER', '')
 
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = os.getenv('LOGIN_REDIRECT_URL', '/')
+
+CACHE_ENABLED = True
+if CACHE_ENABLED:
+    CACHES = {
+        'default': {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": os.getenv("LOCATION")
+        }
+    }
