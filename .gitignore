@@ -44,3 +44,4 @@ static_collected/
 *.log
 *.pot
 *.mo.env
+.env
